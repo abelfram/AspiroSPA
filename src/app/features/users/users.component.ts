@@ -10,9 +10,14 @@ import { Users } from 'src/app/core/models/users';
 })
 export class UsersComponent {
   title: 'AspiroSPA';
-  users: Users;
-  constructor(private usersService: UsersService) {
-      this.users = {name: '', dni: ''}
+  users: Users[] = [];
+  newDni: string;
+  selectedUser: Users = { name: '', dni: ''}
+
+  constructor(private usersService: UsersService) {  }
+
+  ngOnInit(){
+    this.read();
   }
 
   create() {
@@ -23,14 +28,29 @@ export class UsersComponent {
   }
 
   read() {
-
+    this.usersService.readUsers().subscribe(
+      (response: Users[]) => {
+        console.log('Usuarios obtenidos correctamente', response);
+        this.users = response; 
+      },
+      error => console.error('Error al obtener los usuarios', error)
+    );
   }
 
   Update() {
-
+    this.usersService.updateUsers(this.newDni , this.users).subscribe(
+      response => console.log('Usuario actualizado correctamente', response),
+      error => console.error('Ha habido un error al actualizar el usuario', error)
+    )
   }
 
-  Delete(){
-    
+  Delete(dni: string) {
+    this.usersService.deleteUser(dni).subscribe(
+      response => {
+        console.log(`Usuario con DNI ${dni} eliminado correctamente`, response);
+        this.read();
+      },
+      error => console.error(`Error al eliminar usuario con DNI ${dni}`, error)
+    )
   }
 }

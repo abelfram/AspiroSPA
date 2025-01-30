@@ -27,8 +27,8 @@ export class UsersService {
   }
 
   deleteUser(dni: string): Observable<any> {
-    const url = `${this.baseUrl}/Delete`;
-    return this.http.post(url, {dni}, this.getHttpOptions());
+    const url = `${this.baseUrl}/Delete/${dni}`;
+    return this.http.delete(url, this.getHttpOptions());
   }
 
   private getHttpOptions(){
