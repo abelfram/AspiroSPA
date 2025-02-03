@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Users } from 'src/app/core/models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +22,13 @@ export class UsersService {
     return this.http.get(url, this.getHttpOptions());
   }
 
-  updateUsers(dni: string, user: any): Observable<any> {
-    const url = `${this.baseUrl}/Update`;
+  updateUsers(user: Users): Observable<any> {
+    const url = `${this.baseUrl}/Update/${user.id}`;
     return this.http.post(url, user, this.getHttpOptions());
   }
 
-  deleteUser(dni: string): Observable<any> {
-    const url = `${this.baseUrl}/Delete/${dni}`;
+  deleteUser(id: number): Observable<any> {
+    const url = `${this.baseUrl}/Delete/${id}`;
     return this.http.delete(url, this.getHttpOptions());
   }
 

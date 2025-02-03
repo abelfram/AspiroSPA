@@ -12,7 +12,9 @@ export class UsersComponent {
   title: 'AspiroSPA';
   users: Users[] = [];
   newDni: string;
-  selectedUser: Users = { name: '', dni: ''}
+  editingIndex: number | null = null;
+  editedUser: Users = { id: 0, name: '', dni: ''};
+  originalDni: string = '';
 
   constructor(private usersService: UsersService) {  }
 
@@ -38,19 +40,35 @@ export class UsersComponent {
   }
 
   Update() {
-    this.usersService.updateUsers(this.newDni , this.users).subscribe(
-      response => console.log('Usuario actualizado correctamente', response),
-      error => console.error('Ha habido un error al actualizar el usuario', error)
-    )
+    if (this.editingIndex !== null) {
+
+      this.usersService.updateUsers(this.editedUser).subscribe(
+        response => {
+          console.log('Usuario actualizado correctamente', response);
+          this.users[this.editingIndex!] = { ...this.editedUser };
+          this.editingIndex = null;
+        },
+        error => console.error('Error al actualizar el usuario', error)
+      );
+    }
   }
 
-  Delete(dni: string) {
-    this.usersService.deleteUser(dni).subscribe(
+  StartEditing(index: number){
+    this.editingIndex = index;
+    this.editedUser = { ...this.users[index]}
+  }
+  
+  cancelEdit(){
+    this.editingIndex = null;
+  }
+
+  Delete(id: number) {
+    this.usersService.deleteUser(id).subscribe(
       response => {
-        console.log(`Usuario con DNI ${dni} eliminado correctamente`, response);
+        console.log(`Usuario con Id ${id} eliminado correctamente`, response);
         this.read();
       },
-      error => console.error(`Error al eliminar usuario con DNI ${dni}`, error)
+      error => console.error(`Error al eliminar usuario con Id ${id}`, error)
     )
   }
 }

@@ -10,12 +10,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users; let i = index">
             
-            <td>{{ user.name }}</td>
-            <td>{{ user.dni }}</td>
+            <td *ngIf="editingIndex !== i">{{ user.name }}</td>
+            <td *ngIf="editingIndex === i">
+                <input [(ngModel)]="editedUser.name">
+            </td>
+
+            <td *ngIf="editingIndex !== i"> {{ user.dni }}</td>
+            <td *ngIf="editingIndex === i">
+                <input [(ngModel)]="editedUser.dni">
+            </td>
+            
             <td>
-                <button (click)="Delete(user.dni)">delete</button>
+                <button *ngIf="editingIndex !== i" (click)="Delete(user.id)">Delete</button>
+                <button *ngIf="editingIndex !== i" (click)="StartEditing(i)">Modify</button>
+
+                <button *ngIf="editingIndex === i" (click)="cancelEdit()">Cancel</button>
+                <button *ngIf="editingIndex === i" (click)="Update()">Save</button>
             </td>
         </tr>
     </tbody>
