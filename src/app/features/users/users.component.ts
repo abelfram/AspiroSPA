@@ -14,6 +14,7 @@ export class UsersComponent {
   newDni: string;
   editingIndex: number | null = null;
   editedUser: Users = { id: 0, name: '', dni: ''};
+  newUser: Users = { id: 0, name: '', dni: ''};
 
   constructor(private usersService: UsersService) {  }
 
@@ -22,9 +23,19 @@ export class UsersComponent {
   }
 
   create() {
-    this.usersService.createUser(this.users).subscribe(
-    response => console.log('Usuario creado:', response),
-    error => console.error('Error al crear usuario:', error)
+    
+    if (!this.newUser.name || !this.newUser.dni) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+
+    this.usersService.createUser(this.newUser).subscribe(
+      response => {
+        console.log('Usuario creado:', response),
+        this.users.push(response);
+        this.newUser = { id: 0, name: '', dni: '' }
+    },
+      error => console.error('Error al crear usuario:', error)
     );
   }
 

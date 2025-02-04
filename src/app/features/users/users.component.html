@@ -1,5 +1,10 @@
 <h1>{{title}}</h1>
 
+<form (submit)="create()">
+    <input type="text" [(ngModel)]="newUser.name" name="name" placeholder="Nombre" required>
+    <input type="text" [(ngModel)]="newUser.dni" name="Dni" placeholder="Dni" required>
+    <button type="submit">Añadir usuario</button>
+</form>
 
 
 <table>
