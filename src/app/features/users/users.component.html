@@ -23,7 +23,13 @@
 <mat-card>
     <mat-card-title>Lista de Usuarios</mat-card-title>
     <mat-card-content>
-      <table mat-table [dataSource]="users" class="mat-elevation-z8">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Buscar usuario</mat-label>
+            <input matInput (keyup)="Filter($event)" placeholder="Escribe nombre o DNI">
+          </mat-form-field>
+
+      <table mat-table [dataSource]="filteredUsers" class="mat-elevation-z8">
   
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Nombre </th>

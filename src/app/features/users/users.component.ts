@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UsersComponent {
   title: 'AspiroSPA';
   users: Users[] = [];
+  filteredUsers: Users[] = [];
   newDni: string;
   editingUserId: number | null = null;
   editedUser: Users = { id: 0, name: '', dni: ''};
@@ -44,9 +45,19 @@ export class UsersComponent {
     this.usersService.readUsers().subscribe(
       (response: Users[]) => {
         console.log('Usuarios obtenidos correctamente', response);
-        this.users = response; 
+        this.users = response;
+        this.filteredUsers = response;
       },
       error => console.error('Error al obtener los usuarios', error)
+    );
+  }
+
+  Filter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLocaleLowerCase();
+
+    this.filteredUsers = this.users.filter(user =>
+      user.name.toLowerCase().includes(filterValue) ||
+      user.dni.toLowerCase().includes(filterValue)
     );
   }
 
