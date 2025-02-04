@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UsersService } from 'src/app/features/users/services/http/users.service';
 import { Users } from 'src/app/core/models/users';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -12,11 +13,11 @@ export class UsersComponent {
   title: 'AspiroSPA';
   users: Users[] = [];
   newDni: string;
-  editingIndex: number | null = null;
+  editingUserId: number | null = null;
   editedUser: Users = { id: 0, name: '', dni: ''};
   newUser: Users = { id: 0, name: '', dni: ''};
 
-  constructor(private usersService: UsersService) {  }
+  constructor(private usersService: UsersService, private snackBar: MatSnackBar) {  }
 
   ngOnInit(){
     this.read();
@@ -25,7 +26,7 @@ export class UsersComponent {
   create() {
     
     if (!this.newUser.name || !this.newUser.dni) {
-      alert('Por favor, completa todos los campos.');
+      this.snackBar.open('Por favor, completa todos los campos.', 'Cerrar', { duration: 3000 });
       return;
     }
 
@@ -50,25 +51,25 @@ export class UsersComponent {
   }
 
   Update() {
-    if (this.editingIndex !== null) {
+    if (this.editingUserId !== null) {
       this.usersService.updateUsers(this.editedUser).subscribe(
         response => {
           console.log('Usuario actualizado correctamente', response);
-          this.users[this.editingIndex!] = { ...this.editedUser };
-          this.editingIndex = null;
+          this.users[this.editingUserId!] = { ...this.editedUser };
+          this.editingUserId = null;
         },
         error => console.error('Error al actualizar el usuario', error)
       );
     }
   }
 
-  StartEditing(index: number){
-    this.editingIndex = index;
-    this.editedUser = { ...this.users[index]}
+  StartEditing(user: Users){
+    this.editingUserId = user.id;
+    this.editedUser = { ...user}
   }
   
   cancelEdit(){
-    this.editingIndex = null;
+    this.editingUserId = null;
   }
 
   Delete(id: number) {
