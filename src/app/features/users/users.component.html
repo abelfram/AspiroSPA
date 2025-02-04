@@ -23,8 +23,8 @@
             </td>
             
             <td>
-                <button *ngIf="editingIndex !== i" (click)="Delete(user.id)">Delete</button>
                 <button *ngIf="editingIndex !== i" (click)="StartEditing(i)">Modify</button>
+                <button *ngIf="editingIndex !== i" (click)="Delete(user.id)">Delete</button>
 
                 <button *ngIf="editingIndex === i" (click)="cancelEdit()">Cancel</button>
                 <button *ngIf="editingIndex === i" (click)="Update()">Save</button>

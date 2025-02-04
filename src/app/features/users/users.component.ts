@@ -14,7 +14,6 @@ export class UsersComponent {
   newDni: string;
   editingIndex: number | null = null;
   editedUser: Users = { id: 0, name: '', dni: ''};
-  originalDni: string = '';
 
   constructor(private usersService: UsersService) {  }
 
@@ -41,7 +40,6 @@ export class UsersComponent {
 
   Update() {
     if (this.editingIndex !== null) {
-
       this.usersService.updateUsers(this.editedUser).subscribe(
         response => {
           console.log('Usuario actualizado correctamente', response);
