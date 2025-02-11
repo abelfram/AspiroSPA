@@ -13,10 +13,9 @@ export class UsersComponent {
   title: 'AspiroSPA';
   users: Users[] = [];
   filteredUsers: Users[] = [];
-  newDni: string;
   editingUserId: number | null = null;
-  editedUser: Users = { id: 0, name: '', dni: ''};
-  newUser: Users = { id: 0, name: '', dni: ''};
+  editedUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
+  newUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
 
   constructor(private usersService: UsersService, private snackBar: MatSnackBar) {  }
 
@@ -35,7 +34,7 @@ export class UsersComponent {
       response => {
         console.log('Usuario creado:', response),
         this.users.push(response);
-        this.newUser = { id: 0, name: '', dni: '' }
+        this.newUser = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date }
     },
       error => console.error('Error al crear usuario:', error)
     );

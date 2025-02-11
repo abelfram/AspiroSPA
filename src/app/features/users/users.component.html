@@ -10,9 +10,25 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
+                <mat-label>Apellido/s</mat-label>
+                <input matInput type="text" [(ngModel)]="newUser.surname" name="surname" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
                 <mat-label>Dni</mat-label>
                 <input matInput type="text"  [(ngModel)]="newUser.dni" name="Dni" required>
             </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="text"  [(ngModel)]="newUser.email" name="Email" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput type="text"  [(ngModel)]="newUser.birthDate" name="birthDate" required>
+            </mat-form-field>
+            
 
             <button mat-raised-button color="primary" type="submit">Añadir usuario</button>
         </form>
@@ -35,10 +51,22 @@
           <th mat-header-cell *matHeaderCellDef> Nombre </th>
           <td mat-cell *matCellDef="let user">
             <ng-container *ngIf="editingUserId !== user.id; else editName">
-              {{ user.name }}
+              <span class="cell-text"> {{ user.name }} </span>
             </ng-container>
             <ng-template #editName>
               <input matInput [(ngModel)]="editedUser.name">
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="surname">
+          <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+          <td mat-cell *matCellDef="let user">
+            <ng-container *ngIf="editingUserId !== user.id; else editSurname">
+              <span class="cell-text">{{ user.surname }}</span>
+            </ng-container>
+            <ng-template #editSurname>
+              <input matInput [(ngModel)]="editedUser.surname">
             </ng-template>
           </td>
         </ng-container>
@@ -47,17 +75,42 @@
           <th mat-header-cell *matHeaderCellDef> DNI </th>
           <td mat-cell *matCellDef="let user">
             <ng-container *ngIf="editingUserId !== user.id; else editDni">
-              {{ user.dni }}
+              <span class="cell-text">{{ user.dni }}</span>
             </ng-container>
             <ng-template #editDni>
               <input matInput [(ngModel)]="editedUser.dni">
             </ng-template>
           </td>
         </ng-container>
-  
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let user">
+            <ng-container *ngIf="editingUserId !== user.id; else editEmail">
+              <span class="cell-text">{{ user.email }}</span>
+            </ng-container>
+            <ng-template #editEmail>
+              <input matInput [(ngModel)]="editedUser.email">
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="birthDate">
+          <th mat-header-cell *matHeaderCellDef> Fecha de nacimiento </th>
+          <td mat-cell *matCellDef="let user">
+            <ng-container *ngIf="editingUserId !== user.id; else editBirthday">
+              <span class="cell-text">{{ user.birthDate}}</span>
+            </ng-container>
+            <ng-template #editBirthday>
+              <input matInput [(ngModel)]="editedUser.birthDate">
+            </ng-template>
+          </td>
+        </ng-container>
+        
+        
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Acciones </th>
-            <td mat-cell *matCellDef="let user">
+            <th mat-header-cell *matHeaderCellDef class="mat-column-actions"> Acciones </th>
+            <td mat-cell *matCellDef="let user" class="mat-column-actions">
               <ng-container *ngIf="editingUserId !== user.id">
                 <button mat-icon-button color="accent" (click)="StartEditing(user)">
                   <mat-icon>edit</mat-icon>
@@ -78,8 +131,8 @@
             </td>
           </ng-container>
     
-          <tr mat-header-row *matHeaderRowDef="['name', 'dni', 'actions']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['name', 'dni', 'actions'];"></tr>
+          <tr mat-header-row *matHeaderRowDef="['name', 'surname', 'dni', 'email', 'birthDate', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'surname', 'dni', 'email', 'birthDate', 'actions'];"></tr>
     
         </table>
       </mat-card-content>
