@@ -3,7 +3,6 @@ import { UsersService } from 'src/app/features/users/services/http/users.service
 import { Users } from 'src/app/core/models/users';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,7 +16,10 @@ export class UsersComponent {
   editedUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
   newUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
 
-  constructor(private usersService: UsersService, private snackBar: MatSnackBar) {  }
+  constructor(
+    private usersService: UsersService,
+     private snackBar: MatSnackBar
+    ) {  }
 
   ngOnInit(){
     this.read();
@@ -38,6 +40,7 @@ export class UsersComponent {
     },
       error => console.error('Error al crear usuario:', error)
     );
+    this.read();
   }
 
   read() {
@@ -70,6 +73,7 @@ export class UsersComponent {
         },
         error => console.error('Error al actualizar el usuario', error)
       );
+      this.read();
     }
   }
 
@@ -90,5 +94,6 @@ export class UsersComponent {
       },
       error => console.error(`Error al eliminar usuario con Id ${id}`, error)
     )
+    this.read();
   }
 }
