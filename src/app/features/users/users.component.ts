@@ -94,6 +94,5 @@ export class UsersComponent {
       },
       error => console.error(`Error al eliminar usuario con Id ${id}`, error)
     )
-    this.read();
   }
 }
