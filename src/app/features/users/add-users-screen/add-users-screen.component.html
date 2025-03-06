@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-title>Agregar usuario</mat-card-title>
+    <mat-card-content>
+        <form (submit)="create()">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text"  [(ngModel)]="newUser.name" name="name" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Apellido/s</mat-label>
+                <input matInput type="text" [(ngModel)]="newUser.surname" name="surname" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Dni</mat-label>
+                <input matInput type="text"  [(ngModel)]="newUser.dni" name="Dni" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="text"  [(ngModel)]="newUser.email" name="Email" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker"  [(ngModel)]="newUser.birthDate" name="birthDate" required>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            
+
+            <button mat-raised-button color="primary" type="submit">Añadir usuario</button>
+        </form>
+    </mat-card-content>
+</mat-card>

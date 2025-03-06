@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { UsersService } from 'src/app/features/users/services/http/users.service';
 import { Users } from 'src/app/core/models/users';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-users',
@@ -11,44 +14,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UsersComponent {
   title: 'AspiroSPA';
   users: Users[] = [];
-  filteredUsers: Users[] = [];
   editingUserId: number | null = null;
   editedUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
-  newUser: Users = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date};
+  dataSource = new MatTableDataSource<Users>(); 
+  displayedColumns: string[] = ['name', 'surname', 'dni', 'email', 'birthDate', 'actions', 'add'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private usersService: UsersService,
-     private snackBar: MatSnackBar
+    private usersService: UsersService
     ) {  }
 
   ngOnInit(){
     this.read();
   }
 
-  create() {
-    
-    if (!this.newUser.name || !this.newUser.dni) {
-      this.snackBar.open('Por favor, completa todos los campos.', 'Cerrar', { duration: 3000 });
-      return;
-    }
-
-    this.usersService.createUser(this.newUser).subscribe(
-      response => {
-        console.log('Usuario creado:', response),
-        this.users.push(response);
-        this.newUser = { id: 0, name: '', surname: '', dni: '', email: '', birthDate: new Date }
-    },
-      error => console.error('Error al crear usuario:', error)
-    );
-    this.read();
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
+
+  
 
   read() {
     this.usersService.readUsers().subscribe(
       (response: Users[]) => {
         console.log('Usuarios obtenidos correctamente', response);
         this.users = response;
-        this.filteredUsers = response;
+        this.dataSource.data = response;
       },
       error => console.error('Error al obtener los usuarios', error)
     );
@@ -56,11 +48,7 @@ export class UsersComponent {
 
   Filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLocaleLowerCase();
-
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(filterValue) ||
-      user.dni.toLowerCase().includes(filterValue)
-    );
+    this.dataSource.filter = filterValue;
   }
 
   Update() {
