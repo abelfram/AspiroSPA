@@ -11,7 +11,7 @@ import { MaterialModule } from './features/material/material.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

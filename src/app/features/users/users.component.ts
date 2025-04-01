@@ -33,8 +33,6 @@ export class UsersComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  
-
   read() {
     this.usersService.readUsers().subscribe(
       (response: Users[]) => {
@@ -58,10 +56,10 @@ export class UsersComponent {
           console.log('Usuario actualizado correctamente', response);
           this.users[this.editingUserId!] = { ...this.editedUser };
           this.editingUserId = null;
+          this.read();
         },
         error => console.error('Error al actualizar el usuario', error)
       );
-      this.read();
     }
   }
 
